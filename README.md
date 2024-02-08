@@ -7,13 +7,13 @@ For this reason, the environment setup and most of the models employed by SayCan
 
 ## Technologies involved
 This project involves the use of:
-    -The PyBullet for the control of the simulated UR5e-2f85 robotic arm and the creation of its envrironment.
-    -Four machine learning models:
-        -Llama 2-7B as the Large Language Model used to provide instructions, in human language, to the robot. It is also with the help of this model,
+    * The PyBullet for the control of the simulated UR5e-2f85 robotic arm and the creation of its envrironment.
+    * Four machine learning models:
+        * Llama 2-7B as the Large Language Model used to provide instructions, in human language, to the robot. It is also with the help of this model,
         that the robot performs some form of reasoning to behave as expected.
-        -Three visual learning models to help the robot understand the images captured by the camera, and identify specified objects (i.e. if taskA is "Pickup red block", these models will help the robot identify the red block among other objects in the environment):
-            -CLIP (Contrastive Language-Image Pretraining) a computer vision model that learns visual representations from raw text supervision.
-            -CLIPort a framework that combines semantic understanding and spatial precision for vision-based manipulation. It is a language-conditioned imitation-learning agent that integrates the semantic understanding of CLIP with the spatial precision of Transporter Networks.
-            -ViLD (Vision and Language knowledge Distillation) a training method aiming for advancement of open-vocabulary object detection from object description by arbitrary text inputs.
+        * Three visual learning models to help the robot understand the images captured by the camera, and identify specified objects (i.e. if taskA is "Pickup red block", these models will help the robot identify the red block among other objects in the environment):
+            * CLIP (Contrastive Language-Image Pretraining) a computer vision model that learns visual representations from raw text supervision.
+            * CLIPort a framework that combines semantic understanding and spatial precision for vision-based manipulation. It is a language-conditioned imitation-learning agent that integrates the semantic understanding of CLIP with the spatial precision of Transporter Networks.
+            * ViLD (Vision and Language knowledge Distillation) a training method aiming for advancement of open-vocabulary object detection from object description by arbitrary text inputs.
 
 ## How it works
