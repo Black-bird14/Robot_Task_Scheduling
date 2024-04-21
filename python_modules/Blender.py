@@ -10,15 +10,23 @@ from PIL import Image
 import random
 from CoordinateExtraction import run
 import matplotlib.pyplot as plt
+#import anvil.server
+from Vild import vild
+import constants as c
+from CoordinateExtraction import describe
 
-#Describe the environment in a specific format
-def describe(found_objects:dict):
-  scene_description = f"objects = {found_objects}"
-  scene_description = scene_description.replace("'", "")
+#anvil.server.connect("server_O7GBNJ5AD37EMDSHYB26YTMW-TDYOSJG77QVTSKKN")
+
+
+#@anvil.server.callable
+def send_description():
+  found_objects, _ = vild(c.IMAGE_PATH, c.CATEGORY_NAME_STRING, c.VILD_PARAMS, plot_on=True, prompt_swaps=c.PROMPT_SWAP)
+  scene_description = describe(found_objects)
+  print(scene_description)
   return scene_description
-user_input=False
 
 # Define and reset environment.
+#@anvil.server.callable
 def set_env():
   config = {'pick':  ['yellow block', 'red block', 'cyan block'],
             'place': ['yellow bowl', 'red bowl', 'cyan bowl']}
@@ -33,12 +41,12 @@ def set_env():
   imageio.imwrite('imge.jpg', image)
   ##
 
-  plt.imshow(img)
-  plt.show()
-  return obs
 
+  return obs, img
+
+#@anvil.server.callable
 def blender_():   
-    obs=set_env()
+    obs, _ =set_env()
     # Get the user's home directory
     home_dir = os.path.expanduser("~")
     
@@ -64,7 +72,9 @@ def blender_():
         for instruction in instructions:
             run (obs, instruction)
             time.sleep(5)
-        obs=set_env()
+        obs, _= set_env()
 
 if __name__ == '__main__': 
   blender_()
+
+#anvil.server.wait_forever()

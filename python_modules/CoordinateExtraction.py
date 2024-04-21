@@ -10,6 +10,13 @@ from SimulatedEnv import env
 
 
 task_counter = 0
+
+#Describe the environment in a specific format
+def describe(found_objects:dict):
+  scene_description = f"objects = {found_objects}"
+  scene_description = scene_description.replace("'", "")
+  return scene_description
+
 #Reset image to match current environment state
 def img_reset():
     image = env.get_camera_image_top()
@@ -100,6 +107,8 @@ def run(obs, instruction):
     
     #ViLD Execution + Coordinate extraction
     vild_results = vild(c.IMAGE_PATH, c.CATEGORY_NAME_STRING, c.VILD_PARAMS, plot_on=True, prompt_swaps=c.PROMPT_SWAP)
+    found_objects, _= vild_results
+
     pick_object, place_destination = parse_instruction(instruction)
     print("Pick object:", pick_object)
     print("Place target:", place_destination)
