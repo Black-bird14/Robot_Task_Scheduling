@@ -22,7 +22,6 @@ from CoordinateExtraction import describe
 def send_description():
   found_objects, _ = vild(c.IMAGE_PATH, c.CATEGORY_NAME_STRING, c.VILD_PARAMS, plot_on=True, prompt_swaps=c.PROMPT_SWAP)
   scene_description = describe(found_objects)
-  print(scene_description)
   return scene_description
 
 # Define and reset environment.
