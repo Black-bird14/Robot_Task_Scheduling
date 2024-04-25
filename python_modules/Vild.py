@@ -19,7 +19,6 @@ overall_fig_size = (18, 24)
 
 line_thickness = 1
 fig_size_w = 35
-# fig_size_h = min(max(5, int(len(category_names) / 2.5) ), 10)
 mask_color =   'red'
 alpha = 0.5
 

@@ -40,11 +40,17 @@ class SimulatedEnv():
 
     # Temporarily disable rendering to load URDFs faster.
     pybullet.configureDebugVisualizer(pybullet.COV_ENABLE_RENDERING, 0)
+    # Get the directory of the current file
+    current_dir = os.path.dirname(__file__)
 
+    # Get the parent directory by calling os.path.dirname() again
+    parent_dir = os.path.dirname(current_dir)
+    bowl_path=os.path.join(parent_dir,"bowl/bowl.urdf")
+    ur5e_path=os.path.join(parent_dir,"ur5e/ur5e.urdf")
     # Add robot.
     pybullet.loadURDF("plane.urdf", [0, 0, -0.001])
-    self.robot_id = pybullet.loadURDF("ur5e/ur5e.urdf", [0, 0, 0], flags=pybullet.URDF_USE_MATERIAL_COLORS_FROM_MTL)
-    self.ghost_id = pybullet.loadURDF("ur5e/ur5e.urdf", [0, 0, -10])  # For forward kinematics.
+    self.robot_id = pybullet.loadURDF(ur5e_path, [0, 0, 0], flags=pybullet.URDF_USE_MATERIAL_COLORS_FROM_MTL)
+    self.ghost_id = pybullet.loadURDF(ur5e_path, [0, 0, -10])  # For forward kinematics.
     self.joint_ids = [pybullet.getJointInfo(self.robot_id, i) for i in range(pybullet.getNumJoints(self.robot_id))]
     self.joint_ids = [j[0] for j in self.joint_ids if j[2] == pybullet.JOINT_REVOLUTE]
 
@@ -96,7 +102,7 @@ class SimulatedEnv():
           object_id = pybullet.createMultiBody(0.01, object_shape, object_visual, basePosition=object_position)
         elif object_type == "bowl":
           object_position[2] = 0
-          object_id = pybullet.loadURDF("bowl/bowl.urdf", object_position, useFixedBase=1)
+          object_id = pybullet.loadURDF(bowl_path, object_position, useFixedBase=1)
         pybullet.changeVisualShape(object_id, -1, rgbaColor=object_color)
         self.obj_name_to_id[obj_name] = object_id
 

@@ -11,21 +11,22 @@ from SimulatedEnv import env
 
 task_counter = 0
 
-#Describe the environment in a specific format
 def describe(found_objects:dict):
-  scene_description = f"objects = {found_objects}"
-  scene_description = scene_description.replace("'", "")
-  return scene_description
+    """Create Environment description(list of objects found in the environment)"""
+    scene_description = f"objects = {found_objects}"
+    scene_description = scene_description.replace("'", "")
+    return scene_description
 
-#Reset image to match current environment state
+
 def img_reset():
+    """Reset image to match current environment state"""
     image = env.get_camera_image_top()
     image = np.flipud(image.transpose(1, 0, 2))
     imageio.imwrite('imge.jpg', image)
 
-#Parse the instruction to identify pick target and place destination
+
 def parse_instruction(instruction):
-    """Identify pick target and place location using NLU technique"""
+    """Identify pick target and place location using a Natural Language Understanding technique"""
 
     # Download the English model if it's not already downloaded
     try:
@@ -54,9 +55,8 @@ def parse_instruction(instruction):
 
     return " ".join(objects), " ".join(destinations)
 
-#Extract Pick and Place YX Pixel Coordinates
 def extract_object_coordinates(vild_results, pick_objects, place_destinations):
-    """Extract object coordinates using bounding boxes drawn on the image upon running ViLD, along with pick target and place location retrieved from parsing the instruction"""
+    """Extract object pixel coordinates using bounding boxes drawn on the image upon running ViLD, along with pick target and place location retrieved from parsing the instruction"""
     # Unpack vild results
     category_names, rescaled_detection_boxes = vild_results
 
@@ -98,8 +98,8 @@ def extract_object_coordinates(vild_results, pick_objects, place_destinations):
 
     return pick_yx, place_yx
 
-#Combining Instruction Parsing and Execution
 def run(obs, instruction):
+    """Combining Instruction Parsing, Coordinate Extraction, and Execution"""
     global task_counter
     key_words=["top", "bottom", "middle"]
     before = env.get_camera_image()

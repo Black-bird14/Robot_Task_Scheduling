@@ -11,7 +11,12 @@ class Robotiq2F85:
     self.tool = tool
     pos = [0.1339999999999999, -0.49199999999872496, 0.5]
     rot = pybullet.getQuaternionFromEuler([np.pi, 0, np.pi])
-    urdf = "robotiq_2f_85/robotiq_2f_85.urdf"
+    # Get the directory of the current file
+    current_dir = os.path.dirname(__file__)
+
+    # Get the parent directory by calling os.path.dirname() again
+    parent_dir = os.path.dirname(current_dir)
+    urdf = os.path.join(parent_dir,"robotiq_2f_85/robotiq_2f_85.urdf")
     self.body = pybullet.loadURDF(urdf, pos, rot)
     self.n_joints = pybullet.getNumJoints(self.body)
     self.activated = False
