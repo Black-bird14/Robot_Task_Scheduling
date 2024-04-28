@@ -13,10 +13,11 @@ import matplotlib.pyplot as plt
 from Vild import vild
 import constants as c
 from CoordinateExtraction import describe
+from feasibility import *
 #import anvil.server
 #anvil.server.connect("server_O7GBNJ5AD37EMDSHYB26YTMW-TDYOSJG77QVTSKKN")
 
-
+task_feasibility={}
 #@anvil.server.callable
 def send_description():
   """Sends environment description to anvil front end"""
@@ -46,6 +47,7 @@ def set_env():
 #@anvil.server.callable
 def blender_():
   """Main runner function, combines all the necessary functionalities"""
+  global task_feasibility
   obs, _ =set_env()
   # Get the user's home directory
   home_dir = os.path.expanduser("~")
@@ -60,16 +62,19 @@ def blender_():
   tasks_steps={}
   # Extract task name and steps for each task
   for task_name, task_info in sorted_tasks.items():
-      steps=task_info["steps"]
-      tasks_steps[task_info["name"]]=steps
+    steps=task_info["steps"]
+    tasks_steps[task_info["name"]]=steps
 
   for task, instructions in tasks_steps.items():
-      print("Task:", task)
-      print("Steps:", instructions)
-      for instruction in instructions:
-          run (obs, instruction)
-          time.sleep(5)
-      obs, _= set_env()
+    print("Task:", task)
+    print("Steps:", instructions)
+    for instruction in instructions:
+      pickxyz, placexyz=run (obs, instruction)
+      pickxy.append([pickxyz[0],pickxyz[1]])
+      placexy.append([placexyz[0], placexyz[1]])
+      time.sleep(20)
+    task_feasibility[task]=check_feasibility(task, instructions, scene_description, pickxy, placexy)
+    obs, _= set_env()
 
 if __name__ == '__main__': 
   blender_()

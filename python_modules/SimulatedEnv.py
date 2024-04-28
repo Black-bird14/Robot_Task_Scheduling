@@ -111,6 +111,8 @@ class SimulatedEnv():
 
     for _ in range(200):
       pybullet.stepSimulation()
+    # Extract object positions and update workspace boundaries
+    self.update_workspace_boundaries()
     return self.get_observation()
 
   def servoj(self, joints):
@@ -263,7 +265,28 @@ class SimulatedEnv():
 
       return reward
 
+  def update_workspace_boundaries(self):
+      """Extract object positions from the environment"""
+      object_positions = self.get_object_positions()
 
+      # Update workspace boundaries based on object positions
+      min_x = min(object_positions[:, 0])
+      max_x = max(object_positions[:, 0])
+      min_y = min(object_positions[:, 1])
+      max_y = max(object_positions[:, 1])
+
+      self.workspace_boundaries = ((min_x, max_x), (min_y, max_y))
+
+  def get_object_positions(self):
+    object_positions = []
+
+    # Iterate through objects in the environment
+    for obj_name, obj_id in self.obj_name_to_id.items():
+        # Get object position
+        pos, _ = pybullet.getBasePositionAndOrientation(obj_id)
+        object_positions.append(pos[:2])  # Consider only x and y coordinates
+
+    return np.array(object_positions)
 
   def get_observation(self):
     observation = {}
