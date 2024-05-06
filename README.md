@@ -20,3 +20,9 @@ Running it locally involves:
 * Move to the "python_modules" directory and run the Blender.py python file.
    * If on Windows `python Blender.py`.
    * If on Linux `python3 Blender.py`.
+
+If you want to run the Anvil app Proof of Concept(POC), this can only be done with the local runmode as the server times out when calling the LLM. So make sure to have already run the program locally at least once before trying to test the POC (i.e. make sure to have the `sorted_tasks.json` file on your filesystem). The app can be found at this [repository](https://github.com/Black-bird14/robot-task-scheduling-anvil "Anvil-based Interface"). There, you will also find instructions on how to clone it and run it from the platform. 
+To run everything together:
+* First install the anvil uplink with `pip install anvil-uplink`.
+* Next open "Blender.py" and uncomment all the lines involving the word `anvil`.
+* Finally, run the program as instructed above in your terminal, before starting the app from the Anvil platform.
